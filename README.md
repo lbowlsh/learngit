@@ -77,3 +77,4 @@ API文档资料参考 [http://email.263ai.io/api-docs/](http://email.263ai.io/ap
    当 Docker 容器运行后，你可以通过 `http://email.263ai.io/send` 和 `http://email.263ai.io/receive` 访问邮件发送和接收 API。
 
 这样，初步部署了一个可以通过 API 收发邮件的服务，运行在 Docker 容器中，并且可以通过 `docker-compose` 管理。这个服务将 `user@example.com` 的邮件功能扩展到了 API 接口，使得其他应用可以更容易地集成和使用邮件功能。
+# learngit
