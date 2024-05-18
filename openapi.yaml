@@ -1,0 +1,126 @@
+openapi: 3.1.0
+info:
+  title: Mail API Service
+  description: A simple Mail API to send and receive emails using Node.js, Express, and Nodemailer.
+  version: "1.0.0"
+servers:
+  - url: http://10.7.7.200:3001
+    description: External server
+  - url: htpp://localhost:3000
+    description: Internal server
+
+paths:
+  /send:
+    post:
+      summary: Send an email
+      description: Send an email to a specified recipient.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: string
+                  format: email
+                  description: The email address of the recipient.
+                subject:
+                  type: string
+                  description: The subject of the email.
+                text:
+                  type: string
+                  description: The plain text content of the email.
+                html:
+                  type: string
+                  description: The HTML content of the email.
+              required:
+                - to
+                - subject
+                - text
+      responses:
+        '200':
+          description: Email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  info:
+                    type: object
+                    properties:
+                      accepted:
+                        type: array
+                        items:
+                          type: string
+                      rejected:
+                        type: array
+                        items:
+                          type: string
+                      response:
+                        type: string
+        '500':
+          description: Error sending email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  err:
+                    type: object
+                    additionalProperties: true
+
+  /receive:
+    get:
+      summary: Receive emails
+      description: Receive all unseen emails since the last checked date.
+      responses:
+        '200':
+          description: Emails received successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  mails:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        subject:
+                          type: string
+                        from:
+                          type: string
+                        to:
+                          type: string
+                        text:
+                          type: string
+                        html:
+                          type: string
+        '404':
+          description: No new mails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Error receiving emails
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  err:
+                    type: object
+                    additionalProperties: true

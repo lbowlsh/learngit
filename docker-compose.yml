@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mail-api:
+    build: .
+    ports:
+      - "3001:3000"
+    networks:
+      - traefik
+    environment:
+      - NODE_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mail-api.rule=Host(`email.263ai.io`)"
+    # - "traefik.http.routers.mail-api.entrypoints=web"
+    # - "traefik.http.services.mail-api.loadbalancer.server.port=3000"
+    #  - "traefik.http.routers.mail-api.entrypoints=websecure"
+    #  - "traefik.http.routers.mail-api.tls.certresolver=myresolver"
+      - "traefik.http.routers.mail-api.entrypoints=http,https"
+      - "traefik.http.services.mail-api.loadbalancer.server.port=3000"
+    expose:
+      - "3000"
+
+networks:
+  traefik:
+    external: true
